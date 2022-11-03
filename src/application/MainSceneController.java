@@ -1,12 +1,41 @@
 package application;
 
 import javafx.fxml.FXML;
-
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Control;
+import javafx.scene.Node;
+
+//import java.awt.event.MouseEvent;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.Random;
+import java.util.Scanner;
+
 import javafx.event.ActionEvent;
 
 public class MainSceneController {
+	
+    private int difficulty = 1;
+    private int bombcount = 9;
+    private int timerseconds = 180;
+    private boolean hyperbomb = false;
+    private int[][] fieldVisible = new int[9][9];
+    private int[][] fieldHidden = new int[9][9];
+    private int arraydimension = 9;
+    private int flagcnt = 0;
+    
+    @FXML
+    private Button button00;
+    
+    @FXML
+    private GridPane GridPane;
+    
 	@FXML
 	private TextField tftitle;
 	
@@ -28,5 +57,374 @@ public class MainSceneController {
 		//String title = tftitle.getText();
 		//mainWindow.setTitle(title);
 		bombsfield.setText("test");
+		System.out.println("Hello");
+		//GridPane[0][0].setText("trol");
 	}
+	
+	@FXML
+    void startgame(ActionEvent event) {
+       
+    }
+	
+    @FXML
+    void mouseEntered(MouseEvent e) {
+    	button00.setText("troll");
+    	String check = (((Control) e.getSource()).getId());
+    	System.out.println(check);
+    	char i = (check.charAt(6));
+    	char j = (check.charAt(7));
+    	int x = Character.getNumericValue(i);
+    	int y = Character.getNumericValue(j);
+    	System.out.println(x+","+y);
+    	//Node source = (Node)e.getSource() ;
+        int colIndex = GridPane.getColumnIndex((Node) e.getTarget());
+        //flagsfield.setText(""+colIndex);
+        int rowIndex = GridPane.getRowIndex((Node) e.getTarget());
+        System.out.println("Mouse entered cell "+ colIndex+ rowIndex);
+    }
+	
+	 public void displayVisible()
+	    {
+	        System.out.print("\t ");
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            System.out.print(" " + i + "  ");
+	        }
+	        System.out.print("\n");
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            System.out.print(i + "\t| ");
+	            for(int j=0; j<arraydimension; j++)
+	            {
+	                if(fieldVisible[i][j]==0)
+	                {
+	                    System.out.print("?");
+	                }
+	                else if(fieldVisible[i][j]==50)
+	                {
+	                    System.out.print(" ");
+	                }
+	                else if(fieldVisible[i][j]==20) {
+	                	System.out.print("F");
+	                }
+	                else if(fieldVisible[i][j]==100)
+	                {
+	                    System.out.print("X");
+	                }
+	                else if(fieldVisible[i][j]==200)
+	                {
+	                    System.out.print("B");
+	                }
+	                else
+	                {
+	                    System.out.print(fieldVisible[i][j]);
+	                }
+	                System.out.print(" | ");
+	            }
+	            System.out.print("\n");
+	        }
+	    }
+
+	    public void displayHidden()
+	    {
+	        System.out.print("\t ");
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            System.out.print(" " + i + "  ");
+	        }
+	        System.out.print("\n");
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            System.out.print(i + "\t| ");
+	            for(int j=0; j<arraydimension; j++)
+	            {
+	                if(fieldHidden[i][j]==0)
+	                {
+	                    System.out.print(" ");
+	                }
+	                else if(fieldHidden[i][j]==100)
+	                {
+	                    System.out.print("X");
+	                }
+	                else if(fieldHidden[i][j]==200)
+	                {
+	                    System.out.print("B");
+	                }
+	                else
+	                {
+	                    System.out.print(fieldHidden[i][j]);
+	                }
+	                System.out.print(" | ");
+	            }
+	            System.out.print("\n");
+	        }
+	    }
+
+	    public void fixVisible(int i, int j)
+	    {   if (fieldVisible[i][j] == 0 || fieldVisible[i][j]==20) {
+	        fieldVisible[i][j] = 50;
+	        if(i!=0)
+	        {   
+	        	if (fieldVisible[i-1][j] == 0 || fieldVisible[i-1][j] == 20) {
+	            fieldVisible[i-1][j] = fieldHidden[i-1][j];
+	            if(fieldVisible[i-1][j]==0 || fieldVisible[i-1][j] == 20) fixVisible(i-1,j);
+	            	//fieldVisible[i-1][j] = 50;
+	        	}
+	            if(j!=0)
+	            {
+	            	if (fieldVisible[i-1][j-1] == 0 || fieldVisible[i-1][j-1] == 20) {
+	                fieldVisible[i-1][j-1] = fieldHidden[i-1][j-1];
+	                if(fieldVisible[i-1][j-1]==0 || fieldVisible[i-1][j-1] == 20) fixVisible(i-1,j-1);
+	                	//fieldVisible[i-1][j-1]=50;
+	            	}
+	            }
+	        }
+	        if(i!=(arraydimension-1))
+	        {
+	        	if (fieldVisible[i+1][j] == 0 || fieldVisible[i+1][j] == 20) {
+	            fieldVisible[i+1][j]=fieldHidden[i+1][j];
+	            if(fieldVisible[i+1][j]==0 || fieldVisible[i+1][j]==20) fixVisible(i+1,j); 
+	            	//fieldVisible[i+1][j]=50;
+	        	}
+	            if(j!=(arraydimension-1))
+	            {
+	            	if (fieldVisible[i+1][j+1] == 0 || fieldVisible[i+1][j+1] == 20) {
+	                fieldVisible[i+1][j+1]= fieldHidden[i+1][j+1];
+	                if(fieldVisible[i+1][j+1]==0 || fieldVisible[i+1][j+1] == 20) fixVisible(i+1,j+1);
+	                //fieldVisible[i+1][j+1] = 50;
+	            	}
+	            }
+	        }
+	        if(j!=0)
+	        {   
+	        	if (fieldVisible[i][j-1] == 0 || fieldVisible[i][j-1] == 20) {
+	            fieldVisible[i][j-1]=fieldHidden[i][j-1];
+	            if(fieldVisible[i][j-1]==0 || fieldVisible[i][j-1] == 20) fixVisible(i,j-1);
+	            //fieldVisible[i][j-1] = 50;
+	        	}
+	            if(i!=(arraydimension-1))
+	            {
+	            	if (fieldVisible[i+1][j-1]==0 || fieldVisible[i+1][j-1] == 20) {
+	                fieldVisible[i+1][j-1]=fieldHidden[i+1][j-1];
+	                if(fieldVisible[i+1][j-1]==0 || fieldVisible[i+1][j-1] == 20) fixVisible(i+1,j-1);
+	                //fieldVisible[i+1][j-1] = 50;
+	            	}
+	            }
+	        }
+	        if(j!=(arraydimension-1))
+	        {
+	        	if (fieldVisible[i][j+1] == 0 || fieldVisible[i][j+1] == 20) {
+	            fieldVisible[i][j+1]=fieldHidden[i][j+1];
+	            if(fieldVisible[i][j+1]==0 || fieldVisible[i][j+1] == 20) fixVisible(i, j+1);
+	            //fieldVisible[i][j+1] = 50;
+	        	}
+	            if(i!=0)
+	            {
+	            	if (fieldVisible[i-1][j+1] == 0 || fieldVisible[i-1][j+1] == 20) {
+	                fieldVisible[i-1][j+1]=fieldHidden[i-1][j+1];
+	                if(fieldVisible[i-1][j+1]==0 || fieldVisible[i-1][j+1] == 20) fixVisible(i-1,j+1);
+	                //fieldVisible[i-1][j+1] = 50;
+	            	}
+	            }
+	        }
+	    }
+	    }
+
+	    public void fixNeighbours(int i, int j)
+	    {
+	        fieldVisible[i][j] = fieldHidden[i][j];
+	    }
+
+	    public boolean playMove()
+	    {
+	        Scanner sc= new Scanner(System.in);
+	        System.out.print("\nEnter action(0 for left click 1 for right click flag):");
+	        int m=sc.nextInt();
+	        System.out.print("Enter Row Number: ");
+	        int i= sc.nextInt();
+	        System.out.print("Enter Column Number: ");
+	        int j= sc.nextInt();
+
+	        if(i<0 || i>(arraydimension-1) || j<0 || j>(arraydimension-1) || (fieldVisible[i][j]!=0 && fieldVisible[i][j]!=20) ||( m!=0 && m!=1))
+	        {
+	            System.out.print("\nIncorrect Input!!");
+	            return true;
+	        }
+	        
+	        if (m==0) {
+	      /*	if (fieldVisible[i][j]==20) {
+	        	System.out.print("\nIncorrect Input!!");
+	        	return true;
+	        }*/
+	        if(fieldHidden[i][j]==100 || fieldHidden[i][j]==200)
+	        {
+	            displayHidden();
+	            System.out.print("Oops! You stepped on a mine!\n============GAME OVER============");
+	            return false;
+	        }
+	        else if(fieldHidden[i][j]==0)
+	        {
+	            fixVisible(i, j);
+	        }
+	        else
+	        {
+	            fixNeighbours(i, j);
+	        }
+	        }
+	        else {
+	        	if (fieldVisible[i][j]==0) {
+	        		flagcnt++;
+	        	    fieldVisible[i][j] = 20;
+	        	    if (fieldHidden[i][j] == 200 && flagcnt <= 4) {
+	        	    	for (int k=0; k<arraydimension; k++) {
+	        	    		fieldVisible[i][k] = fieldHidden[i][k];
+	        	    				if (fieldVisible[i][k]==0) fieldVisible[i][k]=50;
+	        	    	}
+	        	    	for (int u=0; u<arraydimension; u++) {
+	        	    		fieldVisible[u][j] = fieldHidden[u][j];
+	        	    		if (fieldVisible[u][j]==0) fieldVisible[u][j]=50;
+	        	    	}
+	        	    }
+	        	}  	
+	        	else if (fieldVisible[i][j]==20)
+	        		fieldVisible[i][j] = 0;
+	        }
+
+	        return true;
+	    }
+
+	    public void buildHidden()
+	    {
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            for(int j=0; j<arraydimension; j++)
+	            {
+	                int cnt=0;
+	                if(fieldHidden[i][j]!=100 && fieldHidden[i][j]!=200)
+	                {
+
+	                    if(i!=0)
+	                    {
+	                        if(fieldHidden[i-1][j]==100 || fieldHidden[i-1][j]==200) cnt++;
+	                        if(j!=0)
+	                        {
+	                            if(fieldHidden[i-1][j-1]==100 || fieldHidden[i-1][j-1]==200) cnt++;
+	                        }
+
+	                    }
+	                    if(i!=(arraydimension-1))
+	                    {
+	                        if(fieldHidden[i+1][j]==100 || fieldHidden[i+1][j]==200) cnt++;
+	                        if(j!=(arraydimension-1))
+	                        {
+	                            if(fieldHidden[i+1][j+1]==100 || fieldHidden[i+1][j+1]==200) cnt++;
+	                        }
+	                    }
+	                    if(j!=0)
+	                    {
+	                        if(fieldHidden[i][j-1]==100 || fieldHidden[i][j-1]==200) cnt++;
+	                        if(i!=(arraydimension-1))
+	                        {
+	                            if(fieldHidden[i+1][j-1]==100 || fieldHidden[i+1][j-1]==200) cnt++;
+	                        }
+	                    }
+	                    if(j!=(arraydimension-1))
+	                    {
+	                        if(fieldHidden[i][j+1]==100 || fieldHidden[i][j+1]==200) cnt++;
+	                        if(i!=0)
+	                        {
+	                            if(fieldHidden[i-1][j+1]==100 || fieldHidden[i-1][j+1]==200) cnt++;
+	                        }
+	                    }
+
+	                    fieldHidden[i][j] = cnt;
+	                }
+	            }
+	        }
+
+	        //displayHidden();
+	    }
+
+	    public void setupField(int diff)
+	    {
+	        int var=0;
+	        String data="";
+	        while(var!=bombcount)
+	        {
+	            Random random = new Random();
+	            int i = random.nextInt(arraydimension);
+	            int j = random.nextInt(arraydimension);
+	            //System.out.println("i: " + i + " j: " + j);
+	            if (var==(bombcount-1) && hyperbomb) {
+	            	fieldHidden[i][j] = 200;
+	            	data = data + i+","+j+","+1+"\n";
+	            }
+	            else {
+	            fieldHidden[i][j] = 100;
+					data = data + i+","+j+","+0+"\n";
+	            }
+					//System.out.println(data);
+	            var++;
+	        }
+	        try {
+	        FileOutputStream file = new FileOutputStream("output.txt");			// Creates a FileOutputStream
+			BufferedOutputStream output = new BufferedOutputStream(file);		// Creates a BufferedOutputStream
+			
+			byte[] array = data.getBytes();
+			output.write(array);												// Writes data to the output stream
+			
+			output.close();
+		     }
+		    catch (Exception ex) {
+			     ex.getStackTrace();
+		      }
+	             buildHidden();
+	    }
+
+	    public boolean checkWin()
+	    {
+	        for(int i=0; i<arraydimension; i++)
+	        {
+	            for(int j=0; j<arraydimension; j++)
+	            {
+	                if(fieldVisible[i][j]==0)
+	                {
+	                    if(fieldHidden[i][j]!=100 && fieldHidden[i][j]!=200)
+	                    {
+	                        return false;
+	                    }
+	                }
+	            }
+	        }
+	        return true;
+	    }
+
+	    public void startGame()
+	    {
+	        System.out.println("\n\n================Welcome to Minesweeper ! ================\n");
+	        setupField(1);
+	        boolean timerstart = true;
+	        CountTimer timer = new CountTimer(timerseconds);
+
+	        boolean flag = true;
+	        while(flag)
+	        {
+	            displayVisible();
+	            flag = playMove();
+	            if (timerstart) timer.starttimer();
+	            timerstart = false;
+	            timer.printtimer();
+	            if (timer.checktimerend()) {
+	            	displayHidden();
+	            	System.out.println("\n-------Time out! You LOST!-------");
+	            	break;
+	            }
+	            if(checkWin())
+	            {
+	                displayHidden();
+	                System.out.println("\n================You WON!!!================");
+	                break;
+	            }
+	        }
+	    }
 }
