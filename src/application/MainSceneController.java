@@ -426,6 +426,7 @@ public class MainSceneController {
 //		wr.write(""+120+"\n");
 //		wr.write(""+0+"\n");
 		wr.close();
+		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 
     }
 	
