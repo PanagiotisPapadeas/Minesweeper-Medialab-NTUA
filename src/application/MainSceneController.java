@@ -29,9 +29,253 @@ public class MainSceneController {
     private int[][] fieldHidden = new int[9][9];
     private int arraydimension = 9;
     private int flagcnt = 0;
+    private int i;
+    private int j;
+    private int m=0;
+    private int cou;
     
     @FXML
     private Button button00;
+    
+    @FXML
+    private Button button01;
+    
+    @FXML
+    private Button button02;
+
+    @FXML
+    private Button button03;
+
+    @FXML
+    private Button button04;
+
+    @FXML
+    private Button button05;
+
+    @FXML
+    private Button button06;
+
+    @FXML
+    private Button button07;
+
+    @FXML
+    private Button button08;
+
+    @FXML
+    private Button button10;
+
+    @FXML
+    private Button button11;
+
+    @FXML
+    private Button button12;
+
+    @FXML
+    private Button button13;
+
+    @FXML
+    private Button button14;
+
+    @FXML
+    private Button button15;
+
+    @FXML
+    private Button button16;
+
+    @FXML
+    private Button button17;
+
+    @FXML
+    private Button button18;
+
+    @FXML
+    private Button button20;
+
+    @FXML
+    private Button button21;
+
+    @FXML
+    private Button button22;
+
+    @FXML
+    private Button button23;
+
+    @FXML
+    private Button button24;
+
+    @FXML
+    private Button button25;
+
+    @FXML
+    private Button button26;
+
+    @FXML
+    private Button button27;
+
+    @FXML
+    private Button button28;
+
+    @FXML
+    private Button button30;
+
+    @FXML
+    private Button button31;
+
+    @FXML
+    private Button button32;
+
+    @FXML
+    private Button button33;
+
+    @FXML
+    private Button button34;
+
+    @FXML
+    private Button button35;
+
+    @FXML
+    private Button button36;
+
+    @FXML
+    private Button button37;
+
+    @FXML
+    private Button button38;
+
+    @FXML
+    private Button button40;
+
+    @FXML
+    private Button button41;
+
+    @FXML
+    private Button button42;
+
+    @FXML
+    private Button button43;
+
+    @FXML
+    private Button button44;
+
+    @FXML
+    private Button button45;
+
+    @FXML
+    private Button button46;
+
+    @FXML
+    private Button button47;
+
+    @FXML
+    private Button button48;
+
+    @FXML
+    private Button button50;
+
+    @FXML
+    private Button button51;
+
+    @FXML
+    private Button button52;
+
+    @FXML
+    private Button button53;
+
+    @FXML
+    private Button button54;
+
+    @FXML
+    private Button button55;
+
+    @FXML
+    private Button button56;
+
+    @FXML
+    private Button button57;
+
+    @FXML
+    private Button button58;
+
+    @FXML
+    private Button button60;
+
+    @FXML
+    private Button button61;
+
+    @FXML
+    private Button button62;
+
+    @FXML
+    private Button button63;
+
+    @FXML
+    private Button button64;
+
+    @FXML
+    private Button button65;
+
+    @FXML
+    private Button button66;
+
+    @FXML
+    private Button button67;
+
+    @FXML
+    private Button button68;
+
+    @FXML
+    private Button button70;
+
+    @FXML
+    private Button button71;
+
+    @FXML
+    private Button button72;
+
+    @FXML
+    private Button button73;
+
+    @FXML
+    private Button button74;
+
+    @FXML
+    private Button button75;
+
+    @FXML
+    private Button button76;
+
+    @FXML
+    private Button button77;
+
+    @FXML
+    private Button button78;
+
+    @FXML
+    private Button button80;
+
+    @FXML
+    private Button button81;
+
+    @FXML
+    private Button button82;
+
+    @FXML
+    private Button button83;
+
+    @FXML
+    private Button button84;
+
+    @FXML
+    private Button button85;
+
+    @FXML
+    private Button button86;
+
+    @FXML
+    private Button button87;
+
+    @FXML
+    private Button button88;
     
     @FXML
     private GridPane GridPane;
@@ -48,7 +292,7 @@ public class MainSceneController {
     @FXML
     private TextField timefield;
 
-
+    
 	// Event Listener on Button.onAction
 	@FXML
 	public void btnclicked(ActionEvent event) {
@@ -59,33 +303,88 @@ public class MainSceneController {
 		bombsfield.setText("test");
 		System.out.println("Hello");
 		//GridPane[0][0].setText("trol");
+		//System.out.println(board[0][0]);
 	}
 	
 	@FXML
     void startgame(ActionEvent event) {
-       
+		
     }
+	
+	
+	//public Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08}};
 	
     @FXML
     void mouseEntered(MouseEvent e) {
-    	button00.setText("troll");
+    	 Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08},
+    			 {button10, button11, button12, button13, button14, button15, button16, button17, button18},
+    			 {button20, button21, button22, button23, button24, button25, button26, button27, button28},
+    			 {button30, button31, button32, button33, button34, button35, button36, button37, button38},
+    			 {button40, button41, button42, button43, button44, button45, button46, button47, button48},
+    			 {button50, button51, button52, button53, button54, button55, button56, button57, button58},
+    			 {button60, button61, button62, button63, button64, button65, button66, button67, button68},
+    			 {button70, button71, button72, button73, button74, button75, button76, button77, button78},
+    			 {button80, button81, button82, button83, button84, button85, button86, button87, button88}};
+    	//button00.setText("troll");
+    	//Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08}};
     	String check = (((Control) e.getSource()).getId());
     	System.out.println(check);
-    	char i = (check.charAt(6));
-    	char j = (check.charAt(7));
-    	int x = Character.getNumericValue(i);
-    	int y = Character.getNumericValue(j);
-    	System.out.println(x+","+y);
+    	char x = (check.charAt(6));
+    	char y = (check.charAt(7));
+    	i = Character.getNumericValue(x);
+    	j = Character.getNumericValue(y);
+    	//System.out.println(i+","+j);
+    	//System.out.println(board[i][j]);
+    	//if (cou!=1) 
+    	System.out.println(i+","+j);
+    	//System.out.println(board[i][j]);
+    	if (cou!=1) startGame(); 
+    	cou = 1;
+    	boolean flag = playMove();
+        if (flag) displayVisible();
+        
+        if(checkWin())
+        {
+            displayHidden();
+            System.out.println("\n================You WON!!!================");
+            //break;
+        }
+    	//System.out.println(i+","+j);
+    	//System.out.println(board[i][j]);
+    	//board[i][j].setText("hi");
+    	//board[x][y].setStyle("-fx-background-color: #ff0000; ");
+    	//board[x][y].setStyle("-fx-text-fill: #ff0000");
+    	//board[i][j].setDisable(true);
+    	//board[i][j].setStyle("-fx-opacity: 1;"+
+    	//"-fx-text-fill: #ff0000;"+
+    	//"-fx-background-color: #ffffff;");
+    	//board[x][y].setStyle("-fx-text-fill: #ff0000");
+    	System.out.println(i+","+j);
+    	//displayVisible();
     	//Node source = (Node)e.getSource() ;
-        int colIndex = GridPane.getColumnIndex((Node) e.getTarget());
+        //int colIndex = GridPane.getColumnIndex((Node) e.getTarget());
         //flagsfield.setText(""+colIndex);
-        int rowIndex = GridPane.getRowIndex((Node) e.getTarget());
-        System.out.println("Mouse entered cell "+ colIndex+ rowIndex);
+        //int rowIndex = GridPane.getRowIndex((Node) e.getTarget());
+        //System.out.println("Mouse entered cell "+ colIndex+ rowIndex);
     }
 	
 	 public void displayVisible()
-	    {
-	        System.out.print("\t ");
+	    {   
+		 Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08},
+    			 {button10, button11, button12, button13, button14, button15, button16, button17, button18},
+    			 {button20, button21, button22, button23, button24, button25, button26, button27, button28},
+    			 {button30, button31, button32, button33, button34, button35, button36, button37, button38},
+    			 {button40, button41, button42, button43, button44, button45, button46, button47, button48},
+    			 {button50, button51, button52, button53, button54, button55, button56, button57, button58},
+    			 {button60, button61, button62, button63, button64, button65, button66, button67, button68},
+    			 {button70, button71, button72, button73, button74, button75, button76, button77, button78},
+    			 {button80, button81, button82, button83, button84, button85, button86, button87, button88}};
+		    System.out.println(i+","+j);
+	    	//System.out.println(board[i][j]);
+//		    board[i][j+2].setStyle("-fx-opacity: 1;"+
+//		        	"-fx-text-fill: #ff0000;"+
+//		        	"-fx-background-color: #ffffff;");
+		    System.out.print("\t ");
 	        for(int i=0; i<arraydimension; i++)
 	        {
 	            System.out.print(" " + i + "  ");
@@ -99,10 +398,15 @@ public class MainSceneController {
 	                if(fieldVisible[i][j]==0)
 	                {
 	                    System.out.print("?");
+	                    
 	                }
 	                else if(fieldVisible[i][j]==50)
 	                {
 	                    System.out.print(" ");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	                	"-fx-text-fill: #ff0000;"+
+	                	"-fx-background-color: #ffffff;");
 	                }
 	                else if(fieldVisible[i][j]==20) {
 	                	System.out.print("F");
@@ -110,14 +414,30 @@ public class MainSceneController {
 	                else if(fieldVisible[i][j]==100)
 	                {
 	                    System.out.print("X");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText("X");
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
+	                    
 	                }
 	                else if(fieldVisible[i][j]==200)
 	                {
 	                    System.out.print("B");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText("B");
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                else
 	                {
 	                    System.out.print(fieldVisible[i][j]);
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText(""+fieldVisible[i][j]);
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                System.out.print(" | ");
 	            }
@@ -126,7 +446,16 @@ public class MainSceneController {
 	    }
 
 	    public void displayHidden()
-	    {
+	    {   
+	    	Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08},
+	    			 {button10, button11, button12, button13, button14, button15, button16, button17, button18},
+	    			 {button20, button21, button22, button23, button24, button25, button26, button27, button28},
+	    			 {button30, button31, button32, button33, button34, button35, button36, button37, button38},
+	    			 {button40, button41, button42, button43, button44, button45, button46, button47, button48},
+	    			 {button50, button51, button52, button53, button54, button55, button56, button57, button58},
+	    			 {button60, button61, button62, button63, button64, button65, button66, button67, button68},
+	    			 {button70, button71, button72, button73, button74, button75, button76, button77, button78},
+	    			 {button80, button81, button82, button83, button84, button85, button86, button87, button88}};
 	        System.out.print("\t ");
 	        for(int i=0; i<arraydimension; i++)
 	        {
@@ -141,18 +470,37 @@ public class MainSceneController {
 	                if(fieldHidden[i][j]==0)
 	                {
 	                    System.out.print(" ");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                else if(fieldHidden[i][j]==100)
 	                {
 	                    System.out.print("X");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText("X");
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                else if(fieldHidden[i][j]==200)
 	                {
 	                    System.out.print("B");
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText("B");
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                else
 	                {
 	                    System.out.print(fieldHidden[i][j]);
+	                    board[i][j].setDisable(true);
+	                    board[i][j].setText(""+fieldVisible[i][j]);
+	                    board[i][j].setStyle("-fx-opacity: 1;"+
+	    	                	"-fx-text-fill: #ff0000;"+
+	    	                	"-fx-background-color: #ffffff;");
 	                }
 	                System.out.print(" | ");
 	            }
@@ -237,13 +585,13 @@ public class MainSceneController {
 
 	    public boolean playMove()
 	    {
-	        Scanner sc= new Scanner(System.in);
-	        System.out.print("\nEnter action(0 for left click 1 for right click flag):");
-	        int m=sc.nextInt();
-	        System.out.print("Enter Row Number: ");
-	        int i= sc.nextInt();
-	        System.out.print("Enter Column Number: ");
-	        int j= sc.nextInt();
+//	        Scanner sc= new Scanner(System.in);
+//	        System.out.print("\nEnter action(0 for left click 1 for right click flag):");
+//	        int m=sc.nextInt();
+//	        System.out.print("Enter Row Number: ");
+//	        int i= sc.nextInt();
+//	        System.out.print("Enter Column Number: ");
+//	        int j= sc.nextInt();
 
 	        if(i<0 || i>(arraydimension-1) || j<0 || j>(arraydimension-1) || (fieldVisible[i][j]!=0 && fieldVisible[i][j]!=20) ||( m!=0 && m!=1))
 	        {
@@ -404,27 +752,28 @@ public class MainSceneController {
 	        System.out.println("\n\n================Welcome to Minesweeper ! ================\n");
 	        setupField(1);
 	        boolean timerstart = true;
-	        CountTimer timer = new CountTimer(timerseconds);
+	        //CountTimer timer = new CountTimer(timerseconds);
 
 	        boolean flag = true;
-	        while(flag)
-	        {
+	        //while(flag)
+	        //{
 	            displayVisible();
-	            flag = playMove();
-	            if (timerstart) timer.starttimer();
+	            //flag = playMove();
+	            //displayVisible();
+	            //if (timerstart) timer.starttimer();
 	            timerstart = false;
-	            timer.printtimer();
-	            if (timer.checktimerend()) {
-	            	displayHidden();
-	            	System.out.println("\n-------Time out! You LOST!-------");
-	            	break;
-	            }
-	            if(checkWin())
-	            {
-	                displayHidden();
-	                System.out.println("\n================You WON!!!================");
-	                break;
-	            }
+	            //timer.printtimer();
+//	            if (timer.checktimerend()) {
+//	            	displayHidden();
+//	            	System.out.println("\n-------Time out! You LOST!-------");
+//	            	break;
+//	            }
+//	            if(checkWin())
+//	            {
+//	                displayHidden();
+//	                System.out.println("\n================You WON!!!================");
+//	                //break;
+//	            }
 	        }
-	    }
+	   // }
 }
