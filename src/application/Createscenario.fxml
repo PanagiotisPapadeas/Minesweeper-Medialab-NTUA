@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainSceneController">
+   <children>
+      <Label layoutX="40.0" layoutY="60.0" text="Insert scenario-id">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="238.0" layoutY="14.0" text="Create Scenario">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="120.0" text="Insert difficulty(1 or 2)">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="180.0" text="Insert number of bombs">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="240.0" text="Insert hyperbomb (0 to remove 1 to include)">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="300.0" text="Insert time in seconds">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="scenarioidfield" layoutX="363.0" layoutY="58.0" prefHeight="25.0" prefWidth="52.0" />
+      <TextField fx:id="difficultyfield" layoutX="363.0" layoutY="118.0" prefHeight="25.0" prefWidth="52.0" />
+      <TextField fx:id="numbombsfield" layoutX="363.0" layoutY="178.0" prefHeight="25.0" prefWidth="52.0" />
+      <TextField fx:id="hyperbofield" layoutX="363.0" layoutY="238.0" prefHeight="25.0" prefWidth="52.0" />
+      <TextField fx:id="timesecfield" layoutX="363.0" layoutY="298.0" prefHeight="25.0" prefWidth="52.0" />
+      <Button layoutX="268.0" layoutY="347.0" mnemonicParsing="false" onAction="#okclicked" prefHeight="25.0" prefWidth="52.0" text="OK" />
+   </children>
+</AnchorPane>

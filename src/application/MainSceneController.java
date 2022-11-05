@@ -11,9 +11,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 //import java.awt.event.MouseEvent;
 import java.io.BufferedOutputStream;
@@ -25,6 +28,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javafx.event.ActionEvent;
 
@@ -37,12 +42,14 @@ public class MainSceneController {
     public int[][] fieldVisible;
     public int[][] fieldHidden;
     public int arraydimension;
-    public int flagcnt = 0;
+    public int flagcnt;
+    public int activeflagcnt;
     public int i;
     public int j;
     public int m;
     public String example;
-    //private int cou;
+    public int cou;
+    public boolean sched;
     
     @FXML
     private Button button00;
@@ -307,6 +314,25 @@ public class MainSceneController {
     
     @FXML
     public TextField trou;
+    
+
+    @FXML
+    private TextField difficultyfield;
+
+    @FXML
+    private TextField hyperbofield;
+
+    @FXML
+    private TextField numbombsfield;
+
+    @FXML
+    private TextField scenarioidfield;
+
+    @FXML
+    private TextField timesecfield;
+    
+    @FXML
+    private Label label;
 
     
 	// Event Listener on Button.onAction
@@ -339,6 +365,32 @@ public class MainSceneController {
 	}
 	
 	@FXML
+    void create(ActionEvent event)
+		throws InvalidDescriptionException, InvalidValueException, FileNotFoundException, IOException{
+			Parent root = FXMLLoader.load(getClass().getResource("Createscenario.fxml"));
+	        Scene scene = new Scene(root);
+	        Stage stage = new Stage();
+	        stage.setTitle("Create Scenario");
+	        stage.setScene(scene);
+	        stage.show();
+    }
+	
+	 @FXML
+	    void okclicked(ActionEvent event) 
+		 throws FileNotFoundException, IOException{
+				//example = scenar.getText();
+		        System.out.println(scenarioidfield.getText());
+		        Writer wr = new FileWriter(new File(scenarioidfield.getText()+".txt"));
+		        wr.write(difficultyfield.getText()+"\n");
+		        wr.write(numbombsfield.getText()+"\n");
+		        wr.write(timesecfield.getText()+"\n");
+		        wr.write(hyperbofield.getText()+"\n");
+				wr.close();
+				((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+
+	    }
+	
+	@FXML
     void start(ActionEvent event) 
     		throws InvalidDescriptionException, InvalidValueException, FileNotFoundException{
 		Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08},
@@ -351,7 +403,11 @@ public class MainSceneController {
    			 {button70, button71, button72, button73, button74, button75, button76, button77, button78},
    			 {button80, button81, button82, button83, button84, button85, button86, button87, button88}};
 		System.out.println(example);
-		Scanner sc= new Scanner(new File("SCENARIO-ID.txt"));
+		Scanner sc1= new Scanner(new File("SCENARIO-ID.txt"));
+		if (!sc1.hasNextInt()) throw new InvalidDescriptionException("Input file must contain 1 integer");
+		int sid = sc1.nextInt();
+		try {
+		Scanner sc= new Scanner(new File(sid+".txt"));
 		if (!sc.hasNextInt()) throw new InvalidDescriptionException("Input file must contain 4 integers");
 		int a=sc.nextInt();
 		if (a != 1 && a != 2) throw new InvalidValueException("Difficulty level must be 1 or 2");
@@ -392,6 +448,8 @@ public class MainSceneController {
 		bombsfield.setStyle("-fx-opacity: 1");
 		timefield.setText(""+timerseconds);
 		timefield.setStyle("-fx-opacity: 1");
+		flagcnt=0;
+		activeflagcnt=0;
 		startGame(); 
 		for (int i=0; i<arraydimension; i++) {
 			for (int j=0; j<arraydimension; j++) {
@@ -400,7 +458,13 @@ public class MainSceneController {
 				board[i][j].setDisable(false);
 			}
 		}
-		
+		starttimer();
+		}
+		catch (FileNotFoundException e) {
+			Alert a1 = new Alert(Alert.AlertType.INFORMATION);
+	        a1.setHeaderText("Scenario doesn't exist");
+	        a1.showAndWait();
+		}
     }
 	@FXML
 	void load(ActionEvent actionEvent)
@@ -419,7 +483,7 @@ public class MainSceneController {
     		throws FileNotFoundException, IOException{
 		example = scenar.getText();
         System.out.println(scenar.getText());
-        Writer wr = new FileWriter(new File("file.txt"));
+        Writer wr = new FileWriter(new File("SCENARIO-ID.txt"));
         wr.write(scenar.getText());
 //		wr.write(""+1+"\n");
 //		wr.write(""+9+"\n");
@@ -438,6 +502,13 @@ public class MainSceneController {
         System.exit(0);
     }
 	
+	 @FXML
+	    void solution(ActionEvent event) {
+		 displayHidden();
+         System.out.print("============GAME OVER============");
+         label.setText("GAME OVER");
+         sched=false;
+	    }
 	
 	
 	
@@ -479,6 +550,8 @@ public class MainSceneController {
         {
             displayHidden();
             System.out.println("\n================You WON!!!================");
+            sched=false;
+            label.setText("Congratulations!You WON!");
             //break;
         }
     	//System.out.println(i+","+j);
@@ -530,6 +603,7 @@ public class MainSceneController {
 	                if(fieldVisible[i][j]==0)
 	                {
 	                    System.out.print("?");
+	                    board[i][j].setText("");
 	                    
 	                }
 	                else if(fieldVisible[i][j]==50)
@@ -743,6 +817,8 @@ public class MainSceneController {
 	        {
 	            displayHidden();
 	            System.out.print("Oops! You stepped on a mine!\n============GAME OVER============");
+	            label.setText("You stepped on a mine!");
+	            sched = false;
 	            return false;
 	        }
 	        else if(fieldHidden[i][j]==0)
@@ -757,6 +833,9 @@ public class MainSceneController {
 	        else {
 	        	if (fieldVisible[i][j]==0) {
 	        		flagcnt++;
+	        		activeflagcnt++;
+	        		flagsfield.setText(activeflagcnt+"");
+	        		System.out.println(activeflagcnt+"hello");
 	        	    fieldVisible[i][j] = 20;
 	        	    if (fieldHidden[i][j] == 200 && flagcnt <= 4) {
 	        	    	for (int k=0; k<arraydimension; k++) {
@@ -769,8 +848,12 @@ public class MainSceneController {
 	        	    	}
 	        	    }
 	        	}  	
-	        	else if (fieldVisible[i][j]==20)
+	        	else if (fieldVisible[i][j]==20) {
 	        		fieldVisible[i][j] = 0;
+	        	activeflagcnt--;
+	        	flagsfield.setText(activeflagcnt+"");
+        		System.out.println(activeflagcnt+"hello");
+	        	}
 	        }
 
 	        return true;
@@ -916,5 +999,28 @@ public class MainSceneController {
 //	                //break;
 //	            }
 	        }
+	    public void starttimer(){
+	        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+	        sched = true;
+	        final Runnable runnable = new Runnable() {
+
+	            public void run() {
+	            	if (!sched) scheduler.shutdown();
+	            	timefield.setText(timerseconds+"");
+	                System.out.println(timerseconds);
+	                timerseconds--;
+
+	                if (timerseconds < 0) {
+	                    System.out.println("Timer Over!");
+	                    scheduler.shutdown();
+	                    displayHidden();
+	                    System.out.println("Time out!You lost");
+	                }
+	                
+	          
+	            }
+	        };
+	        scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
+	    }
 	   // }
 }
