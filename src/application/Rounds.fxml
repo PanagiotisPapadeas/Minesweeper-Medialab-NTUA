@@ -36,6 +36,6 @@
       <TextField fx:id="w3" editable="false" layoutX="455.0" layoutY="176.0" prefHeight="25.0" prefWidth="69.0" />
       <TextField fx:id="w4" editable="false" layoutX="455.0" layoutY="236.0" prefHeight="25.0" prefWidth="69.0" />
       <TextField fx:id="w5" editable="false" layoutX="455.0" layoutY="296.0" prefHeight="25.0" prefWidth="69.0" />
-      <Button layoutX="274.0" layoutY="346.0" mnemonicParsing="false" onAction="#show" text="Show" />
+      <Button fx:id="showb" layoutX="274.0" layoutY="346.0" mnemonicParsing="false" onAction="#show" text="Show" />
    </children>
 </AnchorPane>
