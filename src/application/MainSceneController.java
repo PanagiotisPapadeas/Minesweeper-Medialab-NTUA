@@ -44,8 +44,8 @@ public class MainSceneController {
     public int bombcount;
     public int timerseconds;
     public boolean hyperbomb;
-    public int[][] fieldVisible;
-    public int[][] fieldHidden;
+    public int[][] VisibleGrid;
+    public int[][] HiddenGrid;
     public int arraydimension;
     public int flagcnt;
     public int activeflagcnt;
@@ -771,13 +771,13 @@ public class MainSceneController {
 		if (a==1 && d!=0) throw new InvalidValueException("There can't be a hyperbomb for difficulty level 1");
 		difficulty = a;
     	if (difficulty == 1) {
-    	fieldVisible = new int [9][9];
-    	fieldHidden = new int [9][9];
+    	VisibleGrid = new int [9][9];
+    	HiddenGrid = new int [9][9];
     	arraydimension=9;
     	}
     	else if (difficulty == 2) {
-    		fieldVisible = new int [16][16];
-        	fieldHidden = new int [16][16];
+    		VisibleGrid = new int [16][16];
+        	HiddenGrid = new int [16][16];
         	arraydimension=16;
     	}
     	bombcount = b;
@@ -968,13 +968,13 @@ public class MainSceneController {
 	            System.out.print(i + "\t| ");
 	            for(int j=0; j<arraydimension; j++)
 	            {
-	                if(fieldVisible[i][j]==0)
+	                if(VisibleGrid[i][j]==0)
 	                {
 	                    System.out.print("?");
 	                    board[i][j].setText("");
 	                    
 	                }
-	                else if(fieldVisible[i][j]==50)
+	                else if(VisibleGrid[i][j]==50)
 	                {
 	                    System.out.print(" ");
 	                    board[i][j].setDisable(true);
@@ -983,11 +983,11 @@ public class MainSceneController {
 	                	"-fx-text-fill: #ff0000;"+
 	                	"-fx-background-color: #ffffff;");
 	                }
-	                else if(fieldVisible[i][j]==20) {
+	                else if(VisibleGrid[i][j]==20) {
 	                	System.out.print("F");
 	                	board[i][j].setText("F");
 	                }
-	                else if(fieldVisible[i][j]==100)
+	                else if(VisibleGrid[i][j]==100)
 	                {
 	                    System.out.print("X");
 	                    board[i][j].setDisable(true);
@@ -997,7 +997,7 @@ public class MainSceneController {
 	    	                	"-fx-background-color: #ffffff;");
 	                    
 	                }
-	                else if(fieldVisible[i][j]==200)
+	                else if(VisibleGrid[i][j]==200)
 	                {
 	                    System.out.print("B");
 	                    board[i][j].setDisable(true);
@@ -1008,9 +1008,9 @@ public class MainSceneController {
 	                }
 	                else
 	                {
-	                    System.out.print(fieldVisible[i][j]);
+	                    System.out.print(VisibleGrid[i][j]);
 	                    board[i][j].setDisable(true);
-	                    board[i][j].setText(""+fieldVisible[i][j]);
+	                    board[i][j].setText(""+VisibleGrid[i][j]);
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
 	    	                	"-fx-text-fill: #ff0000;"+
 	    	                	"-fx-background-color: #ffffff;");
@@ -1050,7 +1050,7 @@ public class MainSceneController {
 	            System.out.print(i + "\t| ");
 	            for(int j=0; j<arraydimension; j++)
 	            {
-	                if(fieldHidden[i][j]==0)
+	                if(HiddenGrid[i][j]==0)
 	                {
 	                    System.out.print(" ");
 	                    board[i][j].setDisable(true);
@@ -1059,7 +1059,7 @@ public class MainSceneController {
 	    	                	"-fx-text-fill: #ff0000;"+
 	    	                	"-fx-background-color: #ffffff;");
 	                }
-	                else if(fieldHidden[i][j]==100)
+	                else if(HiddenGrid[i][j]==100)
 	                {
 	                    System.out.print("X");
 	                    board[i][j].setDisable(true);
@@ -1068,7 +1068,7 @@ public class MainSceneController {
 	    	                	"-fx-text-fill: #ff0000;"+
 	    	                	"-fx-background-color: #ffffff;");
 	                }
-	                else if(fieldHidden[i][j]==200)
+	                else if(HiddenGrid[i][j]==200)
 	                {
 	                    System.out.print("B");
 	                    board[i][j].setDisable(true);
@@ -1079,9 +1079,9 @@ public class MainSceneController {
 	                }
 	                else
 	                {
-	                    System.out.print(fieldHidden[i][j]);
+	                    System.out.print(HiddenGrid[i][j]);
 	                    board[i][j].setDisable(true);
-	                    board[i][j].setText(""+fieldHidden[i][j]);
+	                    board[i][j].setText(""+HiddenGrid[i][j]);
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
 	    	                	"-fx-text-fill: #ff0000;"+
 	    	                	"-fx-background-color: #ffffff;");
@@ -1092,84 +1092,84 @@ public class MainSceneController {
 	        }
 	    }
 
-	    public void fixVisible(int i, int j)
-	    {   if (fieldVisible[i][j] == 0 || fieldVisible[i][j]==20) {
-	        fieldVisible[i][j] = 50;
+	    public void NeighbourBlank(int i, int j)
+	    {   if (VisibleGrid[i][j] == 0 || VisibleGrid[i][j]==20) {
+	        VisibleGrid[i][j] = 50;
 	        if(i!=0)
 	        {   
-	        	if (fieldVisible[i-1][j] == 0 || fieldVisible[i-1][j] == 20) {
-	            fieldVisible[i-1][j] = fieldHidden[i-1][j];
-	            if(fieldVisible[i-1][j]==0 || fieldVisible[i-1][j] == 20) fixVisible(i-1,j);
+	        	if (VisibleGrid[i-1][j] == 0 || VisibleGrid[i-1][j] == 20) {
+	            VisibleGrid[i-1][j] = HiddenGrid[i-1][j];
+	            if(VisibleGrid[i-1][j]==0 || VisibleGrid[i-1][j] == 20) NeighbourBlank(i-1,j);
 	        	}
 	            if(j!=0)
 	            {
-	            	if (fieldVisible[i-1][j-1] == 0 || fieldVisible[i-1][j-1] == 20) {
-	                fieldVisible[i-1][j-1] = fieldHidden[i-1][j-1];
-	                if(fieldVisible[i-1][j-1]==0 || fieldVisible[i-1][j-1] == 20) fixVisible(i-1,j-1);
+	            	if (VisibleGrid[i-1][j-1] == 0 || VisibleGrid[i-1][j-1] == 20) {
+	                VisibleGrid[i-1][j-1] = HiddenGrid[i-1][j-1];
+	                if(VisibleGrid[i-1][j-1]==0 || VisibleGrid[i-1][j-1] == 20) NeighbourBlank(i-1,j-1);
 	            	}
 	            }
 	        }
 	        if(i!=(arraydimension-1))
 	        {
-	        	if (fieldVisible[i+1][j] == 0 || fieldVisible[i+1][j] == 20) {
-	            fieldVisible[i+1][j]=fieldHidden[i+1][j];
-	            if(fieldVisible[i+1][j]==0 || fieldVisible[i+1][j]==20) fixVisible(i+1,j); 
+	        	if (VisibleGrid[i+1][j] == 0 || VisibleGrid[i+1][j] == 20) {
+	            VisibleGrid[i+1][j]=HiddenGrid[i+1][j];
+	            if(VisibleGrid[i+1][j]==0 || VisibleGrid[i+1][j]==20) NeighbourBlank(i+1,j); 
 	        	}
 	            if(j!=(arraydimension-1))
 	            {
-	            	if (fieldVisible[i+1][j+1] == 0 || fieldVisible[i+1][j+1] == 20) {
-	                fieldVisible[i+1][j+1]= fieldHidden[i+1][j+1];
-	                if(fieldVisible[i+1][j+1]==0 || fieldVisible[i+1][j+1] == 20) fixVisible(i+1,j+1);
+	            	if (VisibleGrid[i+1][j+1] == 0 || VisibleGrid[i+1][j+1] == 20) {
+	                VisibleGrid[i+1][j+1]= HiddenGrid[i+1][j+1];
+	                if(VisibleGrid[i+1][j+1]==0 || VisibleGrid[i+1][j+1] == 20) NeighbourBlank(i+1,j+1);
 	            	}
 	            }
 	        }
 	        if(j!=0)
 	        {   
-	        	if (fieldVisible[i][j-1] == 0 || fieldVisible[i][j-1] == 20) {
-	            fieldVisible[i][j-1]=fieldHidden[i][j-1];
-	            if(fieldVisible[i][j-1]==0 || fieldVisible[i][j-1] == 20) fixVisible(i,j-1);
+	        	if (VisibleGrid[i][j-1] == 0 || VisibleGrid[i][j-1] == 20) {
+	            VisibleGrid[i][j-1]=HiddenGrid[i][j-1];
+	            if(VisibleGrid[i][j-1]==0 || VisibleGrid[i][j-1] == 20) NeighbourBlank(i,j-1);
 	        	}
 	            if(i!=(arraydimension-1))
 	            {
-	            	if (fieldVisible[i+1][j-1]==0 || fieldVisible[i+1][j-1] == 20) {
-	                fieldVisible[i+1][j-1]=fieldHidden[i+1][j-1];
-	                if(fieldVisible[i+1][j-1]==0 || fieldVisible[i+1][j-1] == 20) fixVisible(i+1,j-1);
+	            	if (VisibleGrid[i+1][j-1]==0 || VisibleGrid[i+1][j-1] == 20) {
+	                VisibleGrid[i+1][j-1]=HiddenGrid[i+1][j-1];
+	                if(VisibleGrid[i+1][j-1]==0 || VisibleGrid[i+1][j-1] == 20) NeighbourBlank(i+1,j-1);
 	            	}
 	            }
 	        }
 	        if(j!=(arraydimension-1))
 	        {
-	        	if (fieldVisible[i][j+1] == 0 || fieldVisible[i][j+1] == 20) {
-	            fieldVisible[i][j+1]=fieldHidden[i][j+1];
-	            if(fieldVisible[i][j+1]==0 || fieldVisible[i][j+1] == 20) fixVisible(i, j+1);
+	        	if (VisibleGrid[i][j+1] == 0 || VisibleGrid[i][j+1] == 20) {
+	            VisibleGrid[i][j+1]=HiddenGrid[i][j+1];
+	            if(VisibleGrid[i][j+1]==0 || VisibleGrid[i][j+1] == 20) NeighbourBlank(i, j+1);
 	        	}
 	            if(i!=0)
 	            {
-	            	if (fieldVisible[i-1][j+1] == 0 || fieldVisible[i-1][j+1] == 20) {
-	                fieldVisible[i-1][j+1]=fieldHidden[i-1][j+1];
-	                if(fieldVisible[i-1][j+1]==0 || fieldVisible[i-1][j+1] == 20) fixVisible(i-1,j+1);
+	            	if (VisibleGrid[i-1][j+1] == 0 || VisibleGrid[i-1][j+1] == 20) {
+	                VisibleGrid[i-1][j+1]=HiddenGrid[i-1][j+1];
+	                if(VisibleGrid[i-1][j+1]==0 || VisibleGrid[i-1][j+1] == 20) NeighbourBlank(i-1,j+1);
 	            	}
 	            }
 	        }
 	    }
 	    }
 
-	    public void fixNeighbours(int i, int j)
+	    public void NeighbourBombs(int i, int j)
 	    {
-	        fieldVisible[i][j] = fieldHidden[i][j];
+	        VisibleGrid[i][j] = HiddenGrid[i][j];
 	    }
 
 	    public boolean playMove()
 	    {
 
-	        if(i<0 || i>(arraydimension-1) || j<0 || j>(arraydimension-1) || (fieldVisible[i][j]!=0 && fieldVisible[i][j]!=20) ||( m!=0 && m!=1))
+	        if(i<0 || i>(arraydimension-1) || j<0 || j>(arraydimension-1) || (VisibleGrid[i][j]!=0 && VisibleGrid[i][j]!=20) ||( m!=0 && m!=1))
 	        {
 	            System.out.print("\nIncorrect Input!!");
 	            return true;
 	        }
 	        
 	        if (m==0) {
-	        if(fieldHidden[i][j]==100 || fieldHidden[i][j]==200)
+	        if(HiddenGrid[i][j]==100 || HiddenGrid[i][j]==200)
 	        {
 	            displayHidden();
 	            winner = 1;
@@ -1179,35 +1179,35 @@ public class MainSceneController {
 	            sched = false;
 	            return false;
 	        }
-	        else if(fieldHidden[i][j]==0)
+	        else if(HiddenGrid[i][j]==0)
 	        {
-	            fixVisible(i, j);
+	            NeighbourBlank(i, j);
 	        }
 	        else
 	        {
-	            fixNeighbours(i, j);
+	            NeighbourBombs(i, j);
 	        }
 	        }
 	        else {
-	        	if (fieldVisible[i][j]==0) {
+	        	if (VisibleGrid[i][j]==0) {
 	        		flagcnt++;
 	        		activeflagcnt++;
 	        		flagsfield.setText(activeflagcnt+"");
 	        		System.out.println(activeflagcnt+"hello");
-	        	    fieldVisible[i][j] = 20;
-	        	    if (fieldHidden[i][j] == 200 && flagcnt <= 4) {
+	        	    VisibleGrid[i][j] = 20;
+	        	    if (HiddenGrid[i][j] == 200 && flagcnt <= 4) {
 	        	    	for (int k=0; k<arraydimension; k++) {
-	        	    		fieldVisible[i][k] = fieldHidden[i][k];
-	        	    				if (fieldVisible[i][k]==0) fieldVisible[i][k]=50;
+	        	    		VisibleGrid[i][k] = HiddenGrid[i][k];
+	        	    				if (VisibleGrid[i][k]==0) VisibleGrid[i][k]=50;
 	        	    	}
 	        	    	for (int u=0; u<arraydimension; u++) {
-	        	    		fieldVisible[u][j] = fieldHidden[u][j];
-	        	    		if (fieldVisible[u][j]==0) fieldVisible[u][j]=50;
+	        	    		VisibleGrid[u][j] = HiddenGrid[u][j];
+	        	    		if (VisibleGrid[u][j]==0) VisibleGrid[u][j]=50;
 	        	    	}
 	        	    }
 	        	}  	
-	        	else if (fieldVisible[i][j]==20) {
-	        		fieldVisible[i][j] = 0;
+	        	else if (VisibleGrid[i][j]==20) {
+	        		VisibleGrid[i][j] = 0;
 	        	activeflagcnt--;
 	        	flagsfield.setText(activeflagcnt+"");
         		System.out.println(activeflagcnt+"hello");
@@ -1224,44 +1224,44 @@ public class MainSceneController {
 	            for(int j=0; j<arraydimension; j++)
 	            {
 	                int cnt=0;
-	                if(fieldHidden[i][j]!=100 && fieldHidden[i][j]!=200)
+	                if(HiddenGrid[i][j]!=100 && HiddenGrid[i][j]!=200)
 	                {
 
 	                    if(i!=0)
 	                    {
-	                        if(fieldHidden[i-1][j]==100 || fieldHidden[i-1][j]==200) cnt++;
+	                        if(HiddenGrid[i-1][j]==100 || HiddenGrid[i-1][j]==200) cnt++;
 	                        if(j!=0)
 	                        {
-	                            if(fieldHidden[i-1][j-1]==100 || fieldHidden[i-1][j-1]==200) cnt++;
+	                            if(HiddenGrid[i-1][j-1]==100 || HiddenGrid[i-1][j-1]==200) cnt++;
 	                        }
 
 	                    }
 	                    if(i!=(arraydimension-1))
 	                    {
-	                        if(fieldHidden[i+1][j]==100 || fieldHidden[i+1][j]==200) cnt++;
+	                        if(HiddenGrid[i+1][j]==100 || HiddenGrid[i+1][j]==200) cnt++;
 	                        if(j!=(arraydimension-1))
 	                        {
-	                            if(fieldHidden[i+1][j+1]==100 || fieldHidden[i+1][j+1]==200) cnt++;
+	                            if(HiddenGrid[i+1][j+1]==100 || HiddenGrid[i+1][j+1]==200) cnt++;
 	                        }
 	                    }
 	                    if(j!=0)
 	                    {
-	                        if(fieldHidden[i][j-1]==100 || fieldHidden[i][j-1]==200) cnt++;
+	                        if(HiddenGrid[i][j-1]==100 || HiddenGrid[i][j-1]==200) cnt++;
 	                        if(i!=(arraydimension-1))
 	                        {
-	                            if(fieldHidden[i+1][j-1]==100 || fieldHidden[i+1][j-1]==200) cnt++;
+	                            if(HiddenGrid[i+1][j-1]==100 || HiddenGrid[i+1][j-1]==200) cnt++;
 	                        }
 	                    }
 	                    if(j!=(arraydimension-1))
 	                    {
-	                        if(fieldHidden[i][j+1]==100 || fieldHidden[i][j+1]==200) cnt++;
+	                        if(HiddenGrid[i][j+1]==100 || HiddenGrid[i][j+1]==200) cnt++;
 	                        if(i!=0)
 	                        {
-	                            if(fieldHidden[i-1][j+1]==100 || fieldHidden[i-1][j+1]==200) cnt++;
+	                            if(HiddenGrid[i-1][j+1]==100 || HiddenGrid[i-1][j+1]==200) cnt++;
 	                        }
 	                    }
 
-	                    fieldHidden[i][j] = cnt;
+	                    HiddenGrid[i][j] = cnt;
 	                }
 	            }
 	        }
@@ -1288,11 +1288,11 @@ public class MainSceneController {
 	        	hash_Set.add(pair);
 	            //System.out.println("i: " + i + " j: " + j);
 	            if (var==(bombcount-1) && hyperbomb) {
-	            	fieldHidden[i][j] = 200;
+	            	HiddenGrid[i][j] = 200;
 	            	data = data + i+","+j+","+1+"\n";
 	            }
 	            else {
-	            fieldHidden[i][j] = 100;
+	            HiddenGrid[i][j] = 100;
 					data = data + i+","+j+","+0+"\n";
 	            }
 					//System.out.println(data);
@@ -1355,9 +1355,9 @@ public class MainSceneController {
 	        {
 	            for(int j=0; j<arraydimension; j++)
 	            {
-	                if(fieldVisible[i][j]==0)
+	                if(VisibleGrid[i][j]==0)
 	                {
-	                    if(fieldHidden[i][j]!=100 && fieldHidden[i][j]!=200)
+	                    if(HiddenGrid[i][j]!=100 && HiddenGrid[i][j]!=200)
 	                    {
 	                        return false;
 	                    }
@@ -1372,8 +1372,8 @@ public class MainSceneController {
 	        System.out.println("\n\n================Welcome to Minesweeper ! ================\n");
 	        for (int i=0; i<arraydimension; i++) {
 	        	for (int j=0; j<arraydimension; j++) {
-	        		fieldVisible[i][j]=0;
-	        		fieldHidden[i][j]=0;
+	        		VisibleGrid[i][j]=0;
+	        		HiddenGrid[i][j]=0;
 	        	}
 	        }
 	        setupField(1);
