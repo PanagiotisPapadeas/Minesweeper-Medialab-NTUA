@@ -55,7 +55,7 @@ public class MainSceneController {
     public String example;
     public int cou;
     public boolean sched;
-    public int attempts, timeplayed, winner;
+    public int attempts, timeplayed, winner, c;
 
     @FXML
     private Button button00;    
@@ -732,6 +732,12 @@ public class MainSceneController {
 	@FXML
     void start(ActionEvent event) 
     		throws InvalidDescriptionException, InvalidValueException, FileNotFoundException{
+		if (sched == true) {
+			Alert a1 = new Alert(Alert.AlertType.INFORMATION);
+	        a1.setHeaderText("Finish the active game first or see solution");
+	        a1.showAndWait();
+		}
+		else {
 		Button[][] board = {{button00, button01, button02, button03, button04, button05, button06, button07, button08, button09, b0t10, b0t11, b0t12, b0t13, b0t14, b0t15},
    			 {button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, b1t10, b1t11, b1t12, b1t13, b1t14, b1t15},
    			 {button20, button21, button22, button23, button24, button25, button26, button27, button28, button29, b2t10, b2t11, b2t12, b2t13, b2t14, b2t15},
@@ -839,6 +845,7 @@ public class MainSceneController {
 	        a1.setHeaderText("Scenario doesn't exist");
 	        a1.showAndWait();
 		}
+		}
     }
 	@FXML
 	void load(ActionEvent actionEvent)
@@ -866,6 +873,7 @@ public class MainSceneController {
 	
 	@FXML
 	public void exit(ActionEvent actionEvent) {
+		sched = false;
         Alert a1 = new Alert(AlertType.INFORMATION);
         a1.setHeaderText("Thank you for playing!");
         a1.showAndWait();
@@ -1195,7 +1203,7 @@ public class MainSceneController {
 	        		flagsfield.setText(activeflagcnt+"");
 	        		System.out.println(activeflagcnt+"hello");
 	        	    VisibleGrid[i][j] = 20;
-	        	    if (HiddenGrid[i][j] == 200 && flagcnt <= 4) {
+	        	    if (HiddenGrid[i][j] == 200 && attempts <= 4) {
 	        	    	for (int k=0; k<arraydimension; k++) {
 	        	    		VisibleGrid[i][k] = HiddenGrid[i][k];
 	        	    				if (VisibleGrid[i][k]==0) VisibleGrid[i][k]=50;
@@ -1382,10 +1390,10 @@ public class MainSceneController {
 	    public void starttimer(){
 	        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	        sched = true;
-	        
 	        final Runnable runnable = new Runnable() {
 	            public void run() {
-	    		    
+	    		    if (c==0) sched = true;
+	    		    c = c+1;
 	            	if (!sched) scheduler.shutdown();
 	            	timefield.setText(timerseconds+"");
 	                System.out.println(timerseconds);
