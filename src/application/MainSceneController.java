@@ -6,6 +6,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.scene.input.MouseButton;
@@ -55,7 +57,9 @@ public class MainSceneController {
     public String example;
     public int cou;
     public boolean sched;
-    public int attempts, timeplayed, winner, c;
+    public int attempts, timeplayed, winner;
+    Image flagimg = new Image(getClass().getResourceAsStream("flag.png"));
+    Image nulimg = null;
 
     @FXML
     private Button button00;    
@@ -979,13 +983,14 @@ public class MainSceneController {
 	                if(VisibleGrid[i][j]==0)
 	                {
 	                    System.out.print("?");
-	                    board[i][j].setText("");
-	                    
+	                    //board[i][j].setText("");
+	                    board[i][j].setGraphic(new ImageView(nulimg));                    
 	                }
 	                else if(VisibleGrid[i][j]==50)
 	                {
 	                    System.out.print(" ");
 	                    board[i][j].setDisable(true);
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setText("");
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
 	                	"-fx-text-fill: #ff0000;"+
@@ -993,7 +998,8 @@ public class MainSceneController {
 	                }
 	                else if(VisibleGrid[i][j]==20) {
 	                	System.out.print("F");
-	                	board[i][j].setText("F");
+	                	//board[i][j].setText("F");
+	                	board[i][j].setGraphic(new ImageView(flagimg));
 	                }
 	                else if(VisibleGrid[i][j]==100)
 	                {
@@ -1003,10 +1009,12 @@ public class MainSceneController {
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
 	    	                	"-fx-text-fill: #ff0000;"+
 	    	                	"-fx-background-color: #ffffff;");
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    
 	                }
 	                else if(VisibleGrid[i][j]==200)
 	                {
+	                	board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    System.out.print("B");
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText("B");
@@ -1017,6 +1025,7 @@ public class MainSceneController {
 	                else
 	                {
 	                    System.out.print(VisibleGrid[i][j]);
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText(""+VisibleGrid[i][j]);
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
@@ -1061,6 +1070,7 @@ public class MainSceneController {
 	                if(HiddenGrid[i][j]==0)
 	                {
 	                    System.out.print(" ");
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText("");
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
@@ -1070,6 +1080,7 @@ public class MainSceneController {
 	                else if(HiddenGrid[i][j]==100)
 	                {
 	                    System.out.print("X");
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText("X");
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
@@ -1079,6 +1090,7 @@ public class MainSceneController {
 	                else if(HiddenGrid[i][j]==200)
 	                {
 	                    System.out.print("B");
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText("B");
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
@@ -1088,6 +1100,7 @@ public class MainSceneController {
 	                else
 	                {
 	                    System.out.print(HiddenGrid[i][j]);
+	                    board[i][j].setGraphic(new ImageView(nulimg)); 
 	                    board[i][j].setDisable(true);
 	                    board[i][j].setText(""+HiddenGrid[i][j]);
 	                    board[i][j].setStyle("-fx-opacity: 1;"+
@@ -1392,8 +1405,6 @@ public class MainSceneController {
 	        sched = true;
 	        final Runnable runnable = new Runnable() {
 	            public void run() {
-	    		    if (c==0) sched = true;
-	    		    c = c+1;
 	            	if (!sched) scheduler.shutdown();
 	            	timefield.setText(timerseconds+"");
 	                System.out.println(timerseconds);
