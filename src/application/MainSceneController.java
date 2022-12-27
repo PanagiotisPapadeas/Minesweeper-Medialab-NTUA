@@ -1115,16 +1115,19 @@ public class MainSceneController {
 
 	    public void NeighbourBlank(int i, int j)
 	    {   if (VisibleGrid[i][j] == 0 || VisibleGrid[i][j]==20) {
+	    	if (VisibleGrid[i][j]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	        VisibleGrid[i][j] = 50;
 	        if(i!=0)
 	        {   
 	        	if (VisibleGrid[i-1][j] == 0 || VisibleGrid[i-1][j] == 20) {
+	        	if (VisibleGrid[i-1][j]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	            VisibleGrid[i-1][j] = HiddenGrid[i-1][j];
 	            if(VisibleGrid[i-1][j]==0 || VisibleGrid[i-1][j] == 20) NeighbourBlank(i-1,j);
 	        	}
 	            if(j!=0)
 	            {
 	            	if (VisibleGrid[i-1][j-1] == 0 || VisibleGrid[i-1][j-1] == 20) {
+	            	if (VisibleGrid[i-1][j-1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	                VisibleGrid[i-1][j-1] = HiddenGrid[i-1][j-1];
 	                if(VisibleGrid[i-1][j-1]==0 || VisibleGrid[i-1][j-1] == 20) NeighbourBlank(i-1,j-1);
 	            	}
@@ -1133,12 +1136,14 @@ public class MainSceneController {
 	        if(i!=(arraydimension-1))
 	        {
 	        	if (VisibleGrid[i+1][j] == 0 || VisibleGrid[i+1][j] == 20) {
+	        	if (VisibleGrid[i+1][j]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	            VisibleGrid[i+1][j]=HiddenGrid[i+1][j];
 	            if(VisibleGrid[i+1][j]==0 || VisibleGrid[i+1][j]==20) NeighbourBlank(i+1,j); 
 	        	}
 	            if(j!=(arraydimension-1))
 	            {
 	            	if (VisibleGrid[i+1][j+1] == 0 || VisibleGrid[i+1][j+1] == 20) {
+	            	if (VisibleGrid[i+1][j+1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	                VisibleGrid[i+1][j+1]= HiddenGrid[i+1][j+1];
 	                if(VisibleGrid[i+1][j+1]==0 || VisibleGrid[i+1][j+1] == 20) NeighbourBlank(i+1,j+1);
 	            	}
@@ -1147,12 +1152,14 @@ public class MainSceneController {
 	        if(j!=0)
 	        {   
 	        	if (VisibleGrid[i][j-1] == 0 || VisibleGrid[i][j-1] == 20) {
+	        	if (VisibleGrid[i][j-1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	            VisibleGrid[i][j-1]=HiddenGrid[i][j-1];
 	            if(VisibleGrid[i][j-1]==0 || VisibleGrid[i][j-1] == 20) NeighbourBlank(i,j-1);
 	        	}
 	            if(i!=(arraydimension-1))
 	            {
 	            	if (VisibleGrid[i+1][j-1]==0 || VisibleGrid[i+1][j-1] == 20) {
+	            	if (VisibleGrid[i+1][j-1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	                VisibleGrid[i+1][j-1]=HiddenGrid[i+1][j-1];
 	                if(VisibleGrid[i+1][j-1]==0 || VisibleGrid[i+1][j-1] == 20) NeighbourBlank(i+1,j-1);
 	            	}
@@ -1161,12 +1168,14 @@ public class MainSceneController {
 	        if(j!=(arraydimension-1))
 	        {
 	        	if (VisibleGrid[i][j+1] == 0 || VisibleGrid[i][j+1] == 20) {
+	        	if (VisibleGrid[i][j+1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	            VisibleGrid[i][j+1]=HiddenGrid[i][j+1];
 	            if(VisibleGrid[i][j+1]==0 || VisibleGrid[i][j+1] == 20) NeighbourBlank(i, j+1);
 	        	}
 	            if(i!=0)
 	            {
 	            	if (VisibleGrid[i-1][j+1] == 0 || VisibleGrid[i-1][j+1] == 20) {
+	            	if (VisibleGrid[i-1][j+1]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	                VisibleGrid[i-1][j+1]=HiddenGrid[i-1][j+1];
 	                if(VisibleGrid[i-1][j+1]==0 || VisibleGrid[i-1][j+1] == 20) NeighbourBlank(i-1,j+1);
 	            	}
@@ -1206,6 +1215,7 @@ public class MainSceneController {
 	        }
 	        else
 	        {
+	        	if (VisibleGrid[i][j]==20) {activeflagcnt--; flagsfield.setText(activeflagcnt+"");}
 	            NeighbourBombs(i, j);
 	        }
 	        }
