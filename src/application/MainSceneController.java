@@ -792,6 +792,7 @@ public class MainSceneController {
     	}
     	bombcount = b;
     	timerseconds = c;
+    	activeflagcnt = 0;
     	timeplayed = c;
     	if (d==0) hyperbomb = false;
     	else hyperbomb = true;
@@ -799,7 +800,7 @@ public class MainSceneController {
 		System.out.println(b);
 		System.out.println(c);
 		System.out.println(d);
-		flagsfield.setText(""+flagcnt);
+		flagsfield.setText(""+activeflagcnt);
 		flagsfield.setStyle("-fx-opacity: 1");
 		bombsfield.setText(""+bombcount);
 		bombsfield.setStyle("-fx-opacity: 1");
@@ -901,7 +902,7 @@ public class MainSceneController {
 		 Parent root = FXMLLoader.load(getClass().getResource("Rounds.fxml"));
 	        Scene scene = new Scene(root);
 	        Stage stage = new Stage();
-	        stage.setTitle("Create Scenario");
+	        stage.setTitle("Rounds");
 	        stage.setScene(scene);
 	        stage.show();
 	    }
